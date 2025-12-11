@@ -14,14 +14,14 @@ public class Day07 extends Day {
         int count = 0;
 
         ArrayList<String[]> lines = new ArrayList<>();
-        lines.add(scanner.nextLine().split(""));
+        lines.add(scanner.nextLine().replace("S", "|").split(""));
 
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split("");
             String[] previous = lines.getLast();
 
             for (int i = 0; i < line.length; i++) {
-                if (previous[i].equals("|") || previous[i].equals("S")) {
+                if (previous[i].equals("|")) {
                     if (line[i].equals("^")){
                         line[i - 1] = "|";
                         line[i + 1] = "|";
@@ -36,45 +36,30 @@ public class Day07 extends Day {
         return String.valueOf(count);
     }
 
-    public int getCount(List<ArrayList<String>> lines) {
-        for (int j = 1; j < lines.size(); j++) {
-            ArrayList<String> line = lines.get(j);
-            ArrayList<String> previous = lines.get(j - 1);
-            for (int i = 0; i < line.size(); i++) {
-                if (previous.get(i).equals("|") || previous.get(i).equals("S")) {
-                    if (line.get(i).equals("^")){
-                        List<ArrayList<String>> left = new ArrayList<>();
-                        for (ArrayList<String> newLine : lines.subList(j, lines.size())) {
-                            left.add((ArrayList<String>) newLine.clone());
-                        }
-                        left.getFirst().set(i - 1, "|");
-
-                        List<ArrayList<String>> right = new ArrayList<>();
-                        for (ArrayList<String> newLine : lines.subList(j, lines.size())) {
-                            right.add((ArrayList<String>) newLine.clone());
-                        }
-                        right.getFirst().set(i + 1, "|");
-
-                        System.out.println(line);
-
-                        int leftCount = getCount(left);
-                        int rightCount = getCount(right);
-
-                        return leftCount + rightCount;
-                    } else line.set(i, "|");
-                }
-            }
-        }
-
-        return 1;
-    }
-
     @Override
     public String part2(Scanner scanner) {
-        ArrayList<ArrayList<String>> lines = new ArrayList<>();
+        ArrayList<String[]> lines = new ArrayList<>();
+        lines.add(scanner.nextLine().replace("S", "1").replace(".", "0").split(""));
 
-        while (scanner.hasNextLine()) lines.add(new ArrayList<>(Arrays.asList(scanner.nextLine().split(""))));
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().replace(".", "0").split("");
+            String[] previous = lines.getLast();
 
-        return String.valueOf(getCount(lines));
+            for (int i = 0; i < line.length; i++) {
+                if (!previous[i].equals("0") && !previous[i].equals("^")) {
+                    if (line[i].equals("^")){
+                        line[i - 1] = String.valueOf(Long.parseLong(line[i - 1]) + Long.parseLong(previous[i]));
+                        line[i + 1] = previous[i];
+                    } else line[i] = String.valueOf(Long.parseLong(previous[i]) + Long.parseLong(line[i]));
+                }
+            }
+
+            lines.add(line);
+        }
+
+        long count = 0;
+        for (String s : lines.getLast()) count += Long.parseLong(s);
+
+        return String.valueOf(count);
     }
 }
