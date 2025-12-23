@@ -9,51 +9,35 @@ public class Day08 extends Day {
         super(year, day, runTests, 40, 25272);
     }
 
-    private record JunctionBox(long x, long y, long z) {
-
-        public long distanceFrom(JunctionBox box) {
-            long a = (this.x - box.x) * (this.x - box.x);
-            long b = (this.y - box.y) * (this.y - box.y);
-            long c = (this.z - box.z) * (this.z - box.z);
-
-            return a + b + c;
-        }
-
-        public static JunctionBox createBox(String string) {
-            String[] point = string.split(",");
-            return new JunctionBox(Long.parseLong(point[0]), Long.parseLong(point[1]), Long.parseLong(point[2]));
-        }
-    }
-
     @Override
     public String part1(Scanner scanner) {
-        ArrayList<JunctionBox> boxes = new ArrayList<>();
-        while (scanner.hasNextLine()) boxes.add(JunctionBox.createBox(scanner.nextLine()));
+        ArrayList<Point3D> boxes = new ArrayList<>();
+        while (scanner.hasNextLine()) boxes.add(Point3D.createCoordinate3d(scanner.nextLine()));
 
-        HashMap<Long, JunctionBox[]> map = new HashMap<>();
+        HashMap<Long, Point3D[]> map = new HashMap<>();
 
         for (int i = 0; i < boxes.size() - 1; i++) {
-            JunctionBox box1 = boxes.get(i);
+            Point3D box1 = boxes.get(i);
             for (int j = i + 1; j < boxes.size(); j++) {
-                JunctionBox box2 = boxes.get(j);
+                Point3D box2 = boxes.get(j);
                 long distance = box1.distanceFrom(box2);
                 if (map.containsKey(distance)) {
-                    map.put(distance + 1, new JunctionBox[]{ box1, box2 });
+                    map.put(distance + 1, new Point3D[]{ box1, box2 });
                     System.out.println(distance);
                 }
-                else map.put(distance, new JunctionBox[]{ box1, box2 });
+                else map.put(distance, new Point3D[]{ box1, box2 });
             }
         }
 
         ArrayList<Long> distances = new ArrayList<>(map.keySet());
         distances.sort(null);
-        ArrayList<HashSet<JunctionBox>> circuits = new ArrayList<>();
+        ArrayList<HashSet<Point3D>> circuits = new ArrayList<>();
         int iterations;
         if (boxes.size() == 20) iterations = 10;
         else iterations = 1000;
 
         for (int i = 0; i < iterations; i++) {
-            JunctionBox[] pair = map.get(distances.get(i));
+            Point3D[] pair = map.get(distances.get(i));
 
             int leftIndex = -1;
             int rightIndex = -1;
@@ -87,7 +71,7 @@ public class Day08 extends Day {
         int y = 0;
         int z = 0;
 
-        for (HashSet<JunctionBox> circuit : circuits) {
+        for (HashSet<Point3D> circuit : circuits) {
             int size = circuit.size();
             if (size > x) {
                 z = y;
@@ -104,33 +88,33 @@ public class Day08 extends Day {
 
     @Override
     public String part2(Scanner scanner) {
-        ArrayList<JunctionBox> boxes = new ArrayList<>();
-        while (scanner.hasNextLine()) boxes.add(JunctionBox.createBox(scanner.nextLine()));
+        ArrayList<Point3D> boxes = new ArrayList<>();
+        while (scanner.hasNextLine()) boxes.add(Point3D.createCoordinate3d(scanner.nextLine()));
 
-        HashMap<Long, JunctionBox[]> map = new HashMap<>();
+        HashMap<Long, Point3D[]> map = new HashMap<>();
 
         for (int i = 0; i < boxes.size() - 1; i++) {
-            JunctionBox box1 = boxes.get(i);
+            Point3D box1 = boxes.get(i);
             for (int j = i + 1; j < boxes.size(); j++) {
-                JunctionBox box2 = boxes.get(j);
+                Point3D box2 = boxes.get(j);
                 long distance = box1.distanceFrom(box2);
                 if (map.containsKey(distance)) {
-                    map.put(distance + 1, new JunctionBox[]{ box1, box2 });
+                    map.put(distance + 1, new Point3D[]{ box1, box2 });
                     System.out.println(distance);
                 }
-                else map.put(distance, new JunctionBox[]{ box1, box2 });
+                else map.put(distance, new Point3D[]{ box1, box2 });
             }
         }
 
         ArrayList<Long> distances = new ArrayList<>(map.keySet());
         distances.sort(null);
-        ArrayList<HashSet<JunctionBox>> circuits = new ArrayList<>();
+        ArrayList<HashSet<Point3D>> circuits = new ArrayList<>();
         int iterations;
         if (boxes.size() == 20) iterations = 10;
         else iterations = 1000;
 
         int i = 0;
-        JunctionBox[] pair = map.get(distances.get(i));
+        Point3D[] pair = map.get(distances.get(i));
         while (circuits.isEmpty() || circuits.getFirst().size() != boxes.size()) {
             pair = map.get(distances.get(i));
 
@@ -163,6 +147,6 @@ public class Day08 extends Day {
             i++;
         }
 
-        return String.valueOf(pair[0].x * pair[1].x);
+        return String.valueOf(pair[0].x() * pair[1].x());
     }
 }

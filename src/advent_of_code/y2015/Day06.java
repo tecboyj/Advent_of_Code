@@ -9,27 +9,27 @@ public class Day06 extends Day {
         super(year, day, runTests, 1, 1);
     }
 
-    public Coordinate toCoordinate(String s) {
+    public Point2D toCoordinate(String s) {
         String[] split = s.split(",");
-        return new Coordinate(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        return new Point2D(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
     }
 
     @Override
     public String part1(Scanner scanner) {
         if (!scanner.hasNextLine()) return "1";
 
-        Map<Coordinate, Boolean> map = new HashMap<>();
+        Map<Point2D, Boolean> map = new HashMap<>();
         int count = 0;
 
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(" through ");
             String[] command = line[0].split(" ");
-            Coordinate start = toCoordinate(command[command.length - 1]);
-            Coordinate end = toCoordinate(line[1]);
+            Point2D start = toCoordinate(command[command.length - 1]);
+            Point2D end = toCoordinate(line[1]);
 
-            for (int i = start.x(); i <= end.x(); i++) {
-                for (int j = start.y(); j <= end.y(); j++) {
-                    Coordinate coordinate = new Coordinate(i, j);
+            for (long i = start.x(); i <= end.x(); i++) {
+                for (long j = start.y(); j <= end.y(); j++) {
+                    Point2D coordinate = new Point2D(i, j);
                     boolean state = map.getOrDefault(coordinate, false);
 
                     if (command[0].equals("toggle")) {
@@ -54,18 +54,18 @@ public class Day06 extends Day {
     public String part2(Scanner scanner) {
         if (!scanner.hasNextLine()) return "1";
 
-        Map<Coordinate, Integer> map = new HashMap<>();
+        Map<Point2D, Integer> map = new HashMap<>();
         int count = 0;
 
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(" through ");
             String[] command = line[0].split(" ");
-            Coordinate start = toCoordinate(command[command.length - 1]);
-            Coordinate end = toCoordinate(line[1]);
+            Point2D start = toCoordinate(command[command.length - 1]);
+            Point2D end = toCoordinate(line[1]);
 
-            for (int i = start.x(); i <= end.x(); i++) {
-                for (int j = start.y(); j <= end.y(); j++) {
-                    Coordinate coordinate = new Coordinate(i, j);
+            for (long i = start.x(); i <= end.x(); i++) {
+                for (long j = start.y(); j <= end.y(); j++) {
+                    Point2D coordinate = new Point2D(i, j);
                     if (command[0].equals("toggle")) {
                         count += 2;
                         map.merge(coordinate, 2, Integer::sum);

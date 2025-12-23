@@ -15,8 +15,8 @@ public class Day03 extends Day {
 
         int x = 0;
         int y = 0;
-        Map<Coordinate, Integer> map = new HashMap<>();
-        map.merge(new Coordinate(x, y), 1, Integer::sum);
+        Map<Point2D, Integer> map = new HashMap<>();
+        map.merge(new Point2D(x, y), 1, Integer::sum);
 
         for (String s : input) {
             switch (s) {
@@ -26,7 +26,7 @@ public class Day03 extends Day {
                 case "<" -> x--;
             }
 
-            map.merge(new Coordinate(x, y), 1, Integer::sum);
+            map.merge(new Point2D(x, y), 1, Integer::sum);
         }
 
         return String.valueOf(map.size());
@@ -39,8 +39,8 @@ public class Day03 extends Day {
 
         int[] santa = { 0, 0 };
         int[] roboSanta = { 0, 0 };
-        Map<Coordinate, Integer> map = new HashMap<>();
-        map.merge(new Coordinate(0, 0), 1, Integer::sum);
+        Map<Point2D, Integer> map = new HashMap<>();
+        map.merge(new Point2D(0, 0), 1, Integer::sum);
 
         for (int i = 0; i < input.length; i += 2) {
             switch (input[i]) {
@@ -56,8 +56,8 @@ public class Day03 extends Day {
                 case "<" -> roboSanta[0]--;
             }
 
-            map.merge(new Coordinate(santa[0], santa[1]), 1, Integer::sum);
-            map.merge(new Coordinate(roboSanta[0], roboSanta[1]), 1, Integer::sum);
+            map.merge(new Point2D(santa[0], santa[1]), 1, Integer::sum);
+            map.merge(new Point2D(roboSanta[0], roboSanta[1]), 1, Integer::sum);
         }
 
         return String.valueOf(map.size());
