@@ -109,9 +109,6 @@ public class Day08 extends Day {
         ArrayList<Long> distances = new ArrayList<>(map.keySet());
         distances.sort(null);
         ArrayList<HashSet<Point3D>> circuits = new ArrayList<>();
-        int iterations;
-        if (boxes.size() == 20) iterations = 10;
-        else iterations = 1000;
 
         int i = 0;
         Point3D[] pair = map.get(distances.get(i));

@@ -28,7 +28,7 @@ public class Day07 extends Day {
             }
             case 2 -> {
                 int value = evalCommand(map, command[1]);
-                int result = ~value  & 0xFFFF;
+                int result = ~value & 0xFFFF;
                 cache.put(key, result);
                 yield result;
             }

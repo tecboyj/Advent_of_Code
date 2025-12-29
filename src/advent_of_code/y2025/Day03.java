@@ -4,9 +4,6 @@ import advent_of_code.Day;
 
 import java.util.*;
 
-//3122129068900
-//3121910778619
-
 public class Day03 extends Day {
     public Day03(int year, int day, boolean runTests) {
         super(year, day, runTests, 357, "3121910778619");
